@@ -1,16 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const node_path_1 = __importDefault(require("node:path"));
-const node_url_1 = require("node:url");
-const express_1 = require("express");
-const __filename = (0, node_url_1.fileURLToPath)(import.meta.url);
-const __dirname = node_path_1.default.dirname(__filename);
-const router = (0, express_1.Router)();
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Router } from 'express';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const router = Router();
 // TODO: Define route to serve index.html
 router.get('/', (_req, res) => {
-    res.sendFile(node_path_1.default.join(__dirname, '../../public/index.html'));
+    res.sendFile(path.join(__dirname, '../../../client/dist/index.html'));
 });
-exports.default = router;
+export default router;

@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 // TODO: Define an interface for the Coordinates object
 // TODO: Define a class for the Weather object
 // TODO: Complete the WeatherService class

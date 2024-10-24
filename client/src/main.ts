@@ -77,21 +77,21 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
+  const { name: city, dt: date } =
     currentWeather;
-
+  const humanDate = new Date(date * 1000).toLocaleDateString('en-US');
   // convert the following to typescript
-  heading.textContent = `${city} (${date})`;
+  heading.textContent = `${city} (${humanDate})`;
   weatherIcon.setAttribute(
     'src',
-    `https://openweathermap.org/img/w/${icon}.png`
+    `https://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`
   );
-  weatherIcon.setAttribute('alt', iconDescription);
+  weatherIcon.setAttribute('alt', currentWeather.weather[0].description);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF}°F`;
-  windEl.textContent = `Wind: ${windSpeed} MPH`;
-  humidityEl.textContent = `Humidity: ${humidity} %`;
+  tempEl.textContent = `Temp: ${currentWeather.main.temp}°F`;
+  windEl.textContent = `Wind: ${currentWeather.wind.speed} MPH`;
+  humidityEl.textContent = `Humidity: ${currentWeather.main.humidity} %`;
 
   if (todayContainer) {
     todayContainer.innerHTML = '';

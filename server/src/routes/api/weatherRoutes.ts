@@ -1,16 +1,15 @@
 import { Router, type Request, type Response } from 'express';
 const router = Router();
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 import * as fs from 'fs';
 
 // TODO: POST Request with city name to retrieve weather data
 router.post('/', async (req: Request, res: Response) => {
   console.log(req.body);
   // TODO: GET weather data from city name
-  let weatherData = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${req.body.cityName}&limit=100&appid=${process.env.API_KEY}`);
+  let weatherData = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${req.body.cityName}&units=imperial&appid=${process.env.API_KEY}`);
   let weatherDataJson = await weatherData.json();
-  let forecastData = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${req.body.cityName}&limit=100&appid=${process.env.API_KEY}`);
+  let forecastData = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${req.body.cityName}&appid=${process.env.API_KEY}`);
   let forecastDataJson = await forecastData.json();
   console.log(forecastDataJson);
   console.log(weatherDataJson);
@@ -19,7 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
   let searchHistory = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
   searchHistory.push({id: randomID, city: req.body.city});
   fs.writeFileSync('./db/db.json', JSON.stringify(searchHistory));
-  res.json(weatherDataJson);
+  res.json([weatherDataJson, forecastDataJson.list]);
 });
 
 // TODO: GET search history
